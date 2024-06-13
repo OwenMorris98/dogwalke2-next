@@ -13,6 +13,18 @@ export interface FetchCustomersResponse {
     dogs: Dog[]
   }
 
+ 
+  export const emptyCustomer: Customer = {
+    id: '',
+    first_name: '',
+    last_name: '',
+    address: '',
+    city: '',
+    state: '',
+    zipcode: '',
+    dogs: []
+  };
+
   export interface PostCustomerReq {
     first_name: string
     last_name: string
@@ -31,21 +43,15 @@ export interface FetchCustomersResponse {
     zipcode: '', 
   };
 
-  export const emptyCustomer: Customer = {
-    id: '',
-    first_name: '',
-    last_name: '',
-    address: '',
-    city: '',
-    state: '',
-    zipcode: '',
-    dogs: []
-  };
   
   export interface Dog {
     name: string
     breed: string
     age: number
     notes: string
+  }
+
+  export interface Dogs {
+    dogs: Dog[]
   }
   

@@ -7,7 +7,10 @@ import fetchCustomerList from '../hooks/fetchCustomerList';
 import postCustomer from '../hooks/postCustomer';
 
 function CustomerList() {
-  const response = fetchCustomerList();
+
+  
+  const response =  fetchCustomerList();
+
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -20,7 +23,7 @@ function CustomerList() {
 
   const [customer, setCustomer] = useState<Customer>();
   const [postCustomerReq, setPostCustomerReq] = useState<PostCustomerReq>(); 
-  const [firstName, setFirstName] = useState<string>('');
+
   const [addButton, setAddButton] = useState<boolean>(false);
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +37,10 @@ function CustomerList() {
     setAddButton(!addButton);
     setPostCustomerReq(newPostCustomerReq);
   };
+
+  function showAddDogFrom() {
+
+  }
 
   return (
 <div>
@@ -63,6 +70,7 @@ function CustomerList() {
                     Zip
                 </th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -87,7 +95,10 @@ function CustomerList() {
                     {customer.zipcode}
                 </td>
                 <td>
-                  <button onClick={() => setCustomer(customer)}>Select</button>
+                  <button onClick={() => setCustomer(customer)}>Dogs</button>
+                </td>
+                <td>
+                  <button onClick={() => setCustomer(customer)}>Add Dog</button>
                 </td>
             </tr>
             
