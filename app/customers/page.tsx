@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Customer, emptyCustomer, PostCustomerReq, newPostCustomerReq } from '../lib/definitions';
 import fetchCustomerList from '../hooks/fetchCustomerList';
 import postCustomer from '../hooks/postCustomer';
+import AddDog from '../components/AddDog';
 
 function CustomerList() {
 
@@ -146,6 +147,7 @@ function CustomerList() {
   )}
 </div>
 
+ <AddDog />
 
 </div>
     
