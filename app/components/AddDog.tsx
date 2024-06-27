@@ -13,13 +13,16 @@
     console.log(addDogFormData);
     console.log('Dog added');
 
+    
 }
+
+
     return (
         
     <form action={createDog}>
-        <div className='flex flex-col max-w-xl ml-96'>
+        <div className='flex flex-col'>
         <label htmlFor='dogName'>Dog Name:</label>
-        <input type='text' id='dogName' name='dogName' className='text-black'/>
+        <input type='text' id='dogName' name='dogName' className='border-solid border-black'/>
         <label htmlFor='breed'>Breed:</label>
         <input type='text' id='breed' name='breed' className='text-black'/>
         <label htmlFor='age'>Age:</label>

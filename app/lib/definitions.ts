@@ -42,9 +42,19 @@ export interface FetchCustomersResponse {
     state: '',
     zipcode: '', 
   };
-
+  
+  export interface PostScheduleWalkReq { 
+    dogID: string,
+    walkerID: number,
+    scheduledTime: Date,
+    duration: number,
+    locationID: number,
+    status: string,
+    notes: string
+  }
   
   export interface Dog {
+    id : string
     name: string
     breed: string
     age: number
