@@ -17,9 +17,11 @@ export default async function postScheduleWalk(request: PostScheduleWalkReq) {
            } else {
              console.error('Error posting walk:', response.statusText);
            }
+           return response.status;
      }
      catch (error) {
          console.error('Error posting walk:', error);
      }
+     
     
 }
