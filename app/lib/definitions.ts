@@ -44,13 +44,13 @@ export interface FetchCustomersResponse {
   };
   
   export interface PostScheduleWalkReq { 
-    dogID: string,
-    walkerID: number,
-    scheduledTime: Date,
-    duration: number,
-    locationID: number,
-    status: string,
-    notes: string
+    DogID : string,
+    WalkerID?: number,
+    ScheduledTime: Date,
+    Duration: number,
+    Address: number,
+    Status: string,
+    Notes: string
   }
   
   export interface Dog {

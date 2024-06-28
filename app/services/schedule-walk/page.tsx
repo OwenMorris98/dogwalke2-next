@@ -1,27 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Dog } from "@/app/lib/definitions";
-import fetchCustomersList from "@/app/hooks/fetchCustomerList";
+import { Dog, PostScheduleWalkReq } from "@/app/lib/definitions";
 import fetchDogsByCustomerId from "@/app/hooks/fetchDogsByCustomerId";
+import postScheduleWalk from "@/app/hooks/postScheduleWalk";
 
 export default function ScheduleWalk() {
-let customerId : string = '339c0ad3-1ed4-4c31-946e-c42494598843';
+let customerId : string = '7583a4b6-4dc9-43d4-ac9f-1ed7823f3c5f';
 
 const response = fetchDogsByCustomerId(customerId);
 
-function scheduleWalk(formData: FormData) { 
-    const scheduleWalkFormData = {
+const [request, setRequest] = useState<PostScheduleWalkReq>();
 
-        dogId: formData.get('dog-id'),
-        date: formData.get('date'),
-        duration: formData.get('duration'),
-        location: formData.get('location'),
-        notes: formData.get('notes')
+function scheduleWalk(formData: FormData) { 
+    let sch: PostScheduleWalkReq = { 
+        DogID: formData.get('dog-id'),
+        WalkerID: 2, // Assuming walkerID is static for this example
+        ScheduledTime: formData.get('date'),
+        Duration: parseInt(formData.get('duration')),
+        Address: formData.get('location'), // Assuming locationID is static for this example
+        Status: 'Pending',
+        Notes: formData.get('notes')
+    };
+    console.log(sch);
+    
+    // Check if dogID is not null before setting the request
+    if(sch.dogID !== null) {
+        setRequest(sch);
+        
     }
 
-    console.log(scheduleWalkFormData);
-    console.log('Walk Scheduled');
+    if(request) {
+        postScheduleWalk(request);
+    };
+
+
+    //console.log(scheduleWalkFormData);
+    
 }
 
 
@@ -38,10 +53,10 @@ function scheduleWalk(formData: FormData) {
                 <div className="w-1/3 px-3"> 
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" label-for="dog-name"> Dog
                         {
-                        response?.dogs && response.dogs.length > 1 ? <select className=" block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name='dog-name' id='dog-name'>
+                        response?.dogs && response.dogs.length > 1 ? <select className=" block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name='dog-id' id='dog-id'>
                             <option value=''>Select a dog</option>
                             {response?.dogs.map((dog) => (
-                                <option key={dog.id} value={dog.id}>{dog.name}</option>
+                                <option key={dog.id} value={dog.id} >{dog.name}</option>
                             ))};
 
                         </select> 

@@ -1,24 +1,25 @@
-import { PostCustomerReq } from "../lib/definitions";
+import { PostScheduleWalkReq } from "../lib/definitions";
 
-export default async function postCustomer(customer: PostCustomerReq) {
+export default async function postScheduleWalk(request: PostScheduleWalkReq) {
     try {
-        const response = await fetch(`https://localhost:7188/api/Walks `, {
+        const response = await fetch(`https://localhost:7188/api/Walks`, {
              method: "POST",
              headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json'
               },
-             body: JSON.stringify(customer),
+             body: JSON.stringify(request),
            });
-           console.log(customer);
+           console.log(request);
            if (response.ok) {
-             console.log('Customer posted successfully');
+             console.log('Schedule posted successfully');
+             console.log(response.statusText);
            } else {
-             console.error('Error posting customer:', response.statusText);
+             console.error('Error posting walk:', response.statusText);
            }
      }
      catch (error) {
-         console.error('Error posting customer:', error);
+         console.error('Error posting walk:', error);
      }
     
 }
