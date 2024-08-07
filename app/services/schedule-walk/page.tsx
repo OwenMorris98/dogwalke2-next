@@ -16,20 +16,21 @@ export default function ScheduleWalk() {
 
   async function scheduleWalk(formData: FormData) {
     
+    const dateString = formData.get("date") as string;
     
     let sch: PostScheduleWalkReq = {
-      DogID: formData.get("dog-id"),
+      DogID: formData.get("dog-id") as string,
       WalkerID: 2, // Assuming walkerID is static for this example
-      ScheduledTime: formData.get("date"),
-      Duration: parseInt(formData.get("duration")),
-      Address: formData.get("location"), // Assuming locationID is static for this example
+      ScheduledTime: new Date(dateString),
+      Duration: parseInt(formData.get("duration") as string),
+      Address: formData.get("location") as string, // Assuming locationID is static for this example
       Status: "Pending",
-      Notes: formData.get("notes"),
+      Notes: formData.get("notes") as string,
     };
     console.log(sch);
 
     // Check if dogID is not null before setting the request
-    if (sch.dogID !== null) {
+    if (sch.DogID !== null) {
       setRequest(sch);
     }
   }
@@ -130,6 +131,7 @@ export default function ScheduleWalk() {
                   className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="duration"
                   name="duration"
+                 
                 >
                   <option value="15">15 minutes</option>
                   <option value="30">30 minutes</option>

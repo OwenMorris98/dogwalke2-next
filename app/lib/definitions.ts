@@ -48,7 +48,7 @@ export interface FetchCustomersResponse {
     WalkerID?: number,
     ScheduledTime: Date,
     Duration: number,
-    Address: number,
+    Address: string,
     Status: string,
     Notes: string
   }
