@@ -1,23 +1,29 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import { PostDog } from "../../lib/definitions";
+import { postDog } from "../../hooks/postDog";
+import Cookie from "js-cookie";
 export default function RegisterDog() {
 
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
     const changeIsSubmitted = () => { setIsSubmitted(!isSubmitted) }
 
-    function createDog(formData: FormData) {
+    async function createDog(formData: FormData) {
 
-        const addDogFormData = {
-        dogName: formData.get('dog-name'),
-        breed: formData.get('dog-breed'),
-        age: formData.get('dog-age'),
-        notes: formData.get('dog-notes')
+        const addDogFormData : PostDog = {
+        name: formData.get('dog-name') as string,
+        breed: formData.get('dog-breed') as string,
+        age: parseInt(formData.get('dog-age') as string) as number,
+        notes: formData.get('dog-notes') as string
         }
+        
     
-        console.log(addDogFormData);
+        //console.log(addDogFormData);
         console.log('Dog added'); 
+        const response = await postDog(addDogFormData, Cookie.get('jwt'));  
+        console.log(response);
         changeIsSubmitted();    
     }
   

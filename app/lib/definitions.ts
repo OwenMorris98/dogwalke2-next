@@ -61,6 +61,13 @@ export interface FetchCustomersResponse {
     notes: string
   }
 
+  export interface PostDog {
+    name: string
+    breed: string
+    age: number
+    notes: string
+  }
+
   export interface Dogs {
     dogs: Dog[]
   }

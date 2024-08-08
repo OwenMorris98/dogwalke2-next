@@ -1,15 +1,32 @@
 // Example usage in your component
 
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {loginUser} from "@/app/hooks/auth";
 import { redirect } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
+import { getJwtToken } from "@/app/hooks/auth";
+import { get } from "http";
 
 
 export default function MyStuff() {
+  const [token, setToken] = useState<string | null>(null);
+
+
+  useEffect(() => {
+    const tokenValues = getJwtToken();
+    console.log(tokenValues);
+
+    if (tokenValues) {
+      setToken(tokenValues);
+      console.log('User is already logged in');
+    }
+  }, []); // Empty dependency array ensures this runs only once after the component mounts
+
 
 async function login(formData: FormData) {
+
+
 
   const loginFormData = {
     email: formData.get('email') as string,
@@ -26,12 +43,14 @@ console.log(response);
 }
 
   return(
+    
     <div className="">
        <div className="bg-gray-900 h-28 rounded-lg">
                 <div className="flex justify-center h-28 align-center">
                     <h1 className="text-white mt-9 text-4xl">Login</h1>
                 </div>
             </div>
+  {!token && 
   <form action={login}>
     <div className="flex flex-wrap -mx-3 mb-6">
       <div className="w-full px-3">
@@ -55,6 +74,8 @@ console.log(response);
       </div>
     </div>
   </form>
+}
+ {(token && <p>Welcome {token?.email}</p>)}
   </div>
 )
 }
