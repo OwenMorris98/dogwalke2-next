@@ -23,7 +23,7 @@ export default function ScheduleWalk() {
   const [postSuccess, setPostSuccess] = useState<boolean>(false);
   const [isPosted, setIsPosted] = useState<boolean>(false);
 
-  async function you(formData: FormData) {
+  async function scheduleWalk(formData: FormData) {
     
     const dateString = formData.get("date") as string;
     
