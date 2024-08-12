@@ -51,8 +51,9 @@ export async function registerUser(email: string, password: string) {
 }
 
 export function getJwtToken(): string | null {
-    if(Cookies.get('jwt')) {
-        return jwtDecode(Cookies.get('jwt'))
+    let cookie = Cookies.get('jwt') || '';
+    if(cookie !== '') {
+        return jwtDecode(cookie);
         } else {
             return null;
     }
@@ -60,9 +61,9 @@ export function getJwtToken(): string | null {
 
     
 export function getCustomerId(): string | null {
-    if(Cookies.get('jwt') !== null) {
-        let token = Cookies.get('jwt');
-        let customerId : string = jwtDecode(token).sub as string;
+    let cookie = Cookies.get('jwt') || '';
+    if(cookie !== '') {
+        let customerId : string = jwtDecode(cookie).sub as string;
         return customerId
         } else {
             return null;

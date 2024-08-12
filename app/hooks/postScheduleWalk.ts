@@ -1,12 +1,12 @@
 import { PostScheduleWalkReq } from "../lib/definitions";
 import { getCustomerId, getJwtToken } from "./auth";
 
-export default async function postScheduleWalk(request: PostScheduleWalkReq) {
+export default async function postScheduleWalk(request: PostScheduleWalkReq, token: string) {
     try {
-       let token : string | null = getJwtToken() as string;
+       
        console.log("Token: " + token);
         let customerId : string  | null = getCustomerId();
-        const response = await fetch(`https://localhost:7188/api/${customerId}/Walks`, {
+        const response = await fetch(`https://localhost:67188/api/${customerId}/Walks`, {
              method: "POST",
              headers: {
                 'Accept': '*/*',

@@ -3,7 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { PostDog } from "../../lib/definitions";
 import { postDog } from "../../hooks/postDog";
-import Cookie from "js-cookie";
+import Cookies from "js-cookie";
 export default function RegisterDog() {
 
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -22,7 +22,7 @@ export default function RegisterDog() {
     
         //console.log(addDogFormData);
         console.log('Dog added'); 
-        const response = await postDog(addDogFormData, Cookie.get('jwt'));  
+        const response = await postDog(addDogFormData, Cookies.get('jwt') || '');  
         console.log(response);
         changeIsSubmitted();    
     }

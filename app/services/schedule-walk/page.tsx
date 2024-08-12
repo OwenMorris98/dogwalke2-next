@@ -5,6 +5,7 @@ import { Dog, PostScheduleWalkReq } from "@/app/lib/definitions";
 import fetchDogsByCustomerId from "@/app/hooks/fetchDogsByCustomerId";
 import postScheduleWalk from "@/app/hooks/postScheduleWalk";
 import { getCustomerId } from "@/app/hooks/auth";
+import Cookies from "js-cookie";
 
 
 export default function ScheduleWalk() {
@@ -22,25 +23,34 @@ export default function ScheduleWalk() {
   const [postSuccess, setPostSuccess] = useState<boolean>(false);
   const [isPosted, setIsPosted] = useState<boolean>(false);
 
-  async function scheduleWalk(formData: FormData) {
+  async function you(formData: FormData) {
     
     const dateString = formData.get("date") as string;
     
-    let sch: PostScheduleWalkReq = {
-      DogID: formData.get("dog-id") as string,
+    const dogID = formData.get("dog-id");
+    const duration = formData.get("duration");
+    const location = formData.get("location");
+    const notes = formData.get("notes");
+    
+    if (!dogID || !duration || !location) {
+      throw new Error("Required form data is missing");
+    }
+    
+    const sch: PostScheduleWalkReq = {
+      DogID: dogID.toString(),
       WalkerID: 2, // Assuming walkerID is static for this example
       ScheduledTime: new Date(dateString),
-      Duration: parseInt(formData.get("duration") as string),
-      Address: formData.get("location") as string, // Assuming locationID is static for this example
+      Duration: parseInt(duration.toString(), 10),
+      Address: location.toString(), // Assuming locationID is static for this example
       Status: "Pending",
-      Notes: formData.get("notes") as string,
+      Notes: notes?.toString() || "",
     };
-    console.log(sch);
+    
 
     // Check if dogID is not null before setting the request
     if (sch.DogID !== null) {
       setRequest(sch);
-      const postResponse = await postScheduleWalk(sch);
+      const postResponse = await postScheduleWalk(sch, Cookies.get('jwt') || '');
       console.log(postResponse);
       if(postResponse == 201) {
         setPostSuccess(true);
