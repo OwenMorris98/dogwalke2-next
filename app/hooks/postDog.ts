@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 
 export async function postDog(request : PostDog, token: string) {
     let customerId = jwtDecode(token).sub;
-    const response = await fetch(`https://localhost:7188/api/${customerId}/Dogs`, {
+    const response = await fetch(`https://localhost:7188/api/${customerId}/Dog`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

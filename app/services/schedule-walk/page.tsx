@@ -4,11 +4,19 @@ import { useEffect, useState } from "react";
 import { Dog, PostScheduleWalkReq } from "@/app/lib/definitions";
 import fetchDogsByCustomerId from "@/app/hooks/fetchDogsByCustomerId";
 import postScheduleWalk from "@/app/hooks/postScheduleWalk";
+import { getCustomerId } from "@/app/hooks/auth";
+
 
 export default function ScheduleWalk() {
-  let customerId: string = "7583a4b6-4dc9-43d4-ac9f-1ed7823f3c5f";
+  let customerId : string | null = getCustomerId();
+  console.log(customerId);
+  let response = null;
 
-  const response = fetchDogsByCustomerId(customerId);
+  if(customerId) {
+    response = fetchDogsByCustomerId(customerId);
+    console.log(response)
+  }
+
 
   const [request, setRequest] = useState<PostScheduleWalkReq>();
   const [postSuccess, setPostSuccess] = useState<boolean>(false);
@@ -32,25 +40,18 @@ export default function ScheduleWalk() {
     // Check if dogID is not null before setting the request
     if (sch.DogID !== null) {
       setRequest(sch);
-    }
-  }
-  useEffect(() => {
-    if (request === undefined) return;
-
-    const postWalk = async () => {
-      const status = await postScheduleWalk(request);
-      if (status === 200) {
+      const postResponse = await postScheduleWalk(sch);
+      console.log(postResponse);
+      if(postResponse == 201) {
         setPostSuccess(true);
-        console.log("Schedule setPostSuccess");
       } else {
         setPostSuccess(false);
-        console.error("Error posting walk");
       }
-    };
-    postWalk();
-  }, [request]);
+    }
 
-  //console.log(scheduleWalkFormData);
+    
+
+  }
 
   return (
     <div>
