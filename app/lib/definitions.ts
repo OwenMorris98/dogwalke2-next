@@ -72,3 +72,16 @@ export interface FetchCustomersResponse {
     dogs: Dog[]
   }
   
+  export interface DisplayWalkProps {
+    customerId: string;
+    walkId: string;
+    dogId: string;
+    dogName: string;
+    walkerID: string;
+    walkerName: string;
+    scheduledTime: Date;
+    duration: number;
+    address: string;
+    status: string;
+    notes: string;
+  }
