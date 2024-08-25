@@ -6,7 +6,8 @@ export default async function postScheduleWalk(request: PostScheduleWalkReq, tok
        
        console.log("Token: " + token);
         let customerId : string  | null = getCustomerId();
-        const response = await fetch(`https://localhost:67188/api/${customerId}/Walks`, {
+        console.log("Customer ID: " + customerId);
+        const response = await fetch(`https://localhost:7188/api/${customerId}/Walks`, {
              method: "POST",
              headers: {
                 'Accept': '*/*',
@@ -15,7 +16,7 @@ export default async function postScheduleWalk(request: PostScheduleWalkReq, tok
               },
              body: JSON.stringify(request),
            });
-           console.log(request);
+           console.log(response);
            if (response.ok) {
              console.log('Schedule posted successfully');
              console.log(response.statusText);

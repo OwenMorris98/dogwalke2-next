@@ -3,25 +3,23 @@ import { useEffect, useState } from 'react';
 import { DisplayWalkProps, FetchCustomersResponse } from '../lib/definitions';
 
 
-export default function fetchWalks(customerId : string) {
-const [response, setResponse] = useState<DisplayWalkProps[]>([]);
-  useEffect(() => {
-    async function getPendingWalks() {
+export default function useFetchWalks() {
+
+  
+    async function getPendingWalks(customerId : string) {
       try {
         const response = await fetch(`https://localhost:7188/api/${customerId}/Walks/Pending`); // Adjust the URL as needed
         if (response.ok) {
           const data = await response.json();
-          setResponse(data);
+          return data;
         } else {
           console.error('Error fetching walks:', response.statusText);
+          return [];
         }
       } catch (error) {
         console.error('Error fetching walks:', error);
       }
     }
 
-    getPendingWalks();
-  }, []);
-
-    return response;
+    return { getPendingWalks};
 }

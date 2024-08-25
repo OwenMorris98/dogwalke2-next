@@ -6,16 +6,23 @@ import fetchDogsByCustomerId from "@/app/hooks/fetchDogsByCustomerId";
 import postScheduleWalk from "@/app/hooks/postScheduleWalk";
 import { getCustomerId } from "@/app/hooks/auth";
 import Cookies from "js-cookie";
+import { useRouter } from 'next/navigation';
+import { getJwtToken } from "@/app/hooks/auth";
+import { get } from "http";
 
 
 export default function ScheduleWalk() {
+  const router = useRouter();
   let customerId : string | null = getCustomerId();
   console.log(customerId);
   let response = null;
 
   if(customerId) {
-    response = fetchDogsByCustomerId(customerId);
+    response = fetchDogsByCustomerId(customerId, Cookies.get('jwt') || '');
     console.log(response)
+  }
+  else {
+    router.push('/customers');
   }
 
 

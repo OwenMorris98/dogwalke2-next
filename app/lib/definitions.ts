@@ -85,3 +85,13 @@ export interface FetchCustomersResponse {
     status: string;
     notes: string;
   }
+
+  export interface CalendarWalk {
+    id: number; 
+    title: string; 
+    date: string; 
+    address: string; 
+    walker: string, 
+    duration: number; 
+    notes: string | null;
+  }

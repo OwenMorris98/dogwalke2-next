@@ -1,33 +1,34 @@
-// lib/useFetch.ts
-import { useEffect, useState } from 'react';
+// hooks/useFetch.ts
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
-export function useFetch(url: string, options?: RequestInit) {
-  const [data, setData] = useState<any>(null);
-  const [error, setError] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+const useFetch = () => {
+  const router = useRouter();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url, options);
+  const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
+    try {
+      const response = await fetch(url, options);
 
-        if (response.status === 401) {
-          // Handle 401 error: redirect to login page
-          
-          return;
-        }
-
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
+      if (response.status === 401) {
+        console.log('UNAUTHORIZED');
+        // Unauthorized error
+        Cookies.remove('jwt'); // Replace with your cookie name
+        router.push('/customers'); // Redirect to login page
+        return null;
       }
-    };
 
-    fetchData();
-  }, [url, options]);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
-  return { data, error, loading };
-}
+      return await response.json();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error;
+    }
+  };
+
+  return fetchWithAuth;
+};
+
+export default useFetch;
