@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Dog, PostScheduleWalkReq } from "@/app/lib/definitions";
 import fetchDogsByCustomerId from "@/app/hooks/fetchDogsByCustomerId";
-import postScheduleWalk from "@/app/hooks/postScheduleWalk";
+import usePostScheduleWalk from "@/app/hooks/postScheduleWalk";
 import { getCustomerId } from "@/app/hooks/auth";
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation';
@@ -13,6 +13,7 @@ import { get } from "http";
 
 export default function ScheduleWalk() {
   const router = useRouter();
+  const { postScheduleWalk } = usePostScheduleWalk();
   let customerId : string | null = getCustomerId();
   console.log(customerId);
   let response = null;
@@ -59,7 +60,7 @@ export default function ScheduleWalk() {
       setRequest(sch);
       const postResponse = await postScheduleWalk(sch, Cookies.get('jwt') || '');
       console.log(postResponse);
-      if(postResponse == 201) {
+      if(postResponse) {
         setPostSuccess(true);
       } else {
         setPostSuccess(false);
@@ -126,7 +127,7 @@ export default function ScheduleWalk() {
             <div className="w-1/3 px-3">
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                label-for="dog-id"
+                label-for="date"
               >
                 {" "}
                 Date
@@ -134,7 +135,7 @@ export default function ScheduleWalk() {
                   className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="date"
                   name="date"
-                  type="date"
+                  type="datetime-local"
                 />
               </label>
             </div>

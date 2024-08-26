@@ -1,13 +1,18 @@
 import { PostScheduleWalkReq } from "../lib/definitions";
 import { getCustomerId, getJwtToken } from "./auth";
+import useFetch from "./useFetch";
 
-export default async function postScheduleWalk(request: PostScheduleWalkReq, token: string) {
+const usePostScheduleWalk = () => {
+  const fetchWithAuth = useFetch();
+
+const  postScheduleWalk = async (request: PostScheduleWalkReq, token: string) => {
+
     try {
        
        console.log("Token: " + token);
         let customerId : string  | null = getCustomerId();
         console.log("Customer ID: " + customerId);
-        const response = await fetch(`https://localhost:7188/api/${customerId}/Walks`, {
+        const response = await fetchWithAuth(`https://localhost:7188/api/${customerId}/Walks`, {
              method: "POST",
              headers: {
                 'Accept': '*/*',
@@ -17,17 +22,17 @@ export default async function postScheduleWalk(request: PostScheduleWalkReq, tok
              body: JSON.stringify(request),
            });
            console.log(response);
-           if (response.ok) {
+           if (response) {
              console.log('Schedule posted successfully');
-             console.log(response.statusText);
+             console.log(response);
            } else {
              console.error('Error posting walk:', response.statusText);
            }
-           return response.status;
+           return response;
      }
      catch (error) {
          console.error('Error posting walk:', error);
-     }
-     
-    
-}
+     };
+      
+};return { postScheduleWalk}
+}; export default usePostScheduleWalk;
