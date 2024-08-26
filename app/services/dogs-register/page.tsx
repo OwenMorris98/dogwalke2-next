@@ -2,10 +2,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import { PostDog } from "../../lib/definitions";
-import { postDog } from "../../hooks/postDog";
+import  usePostDog  from "../../hooks/postDog";
 import Cookies from "js-cookie";
 export default function RegisterDog() {
 
+    const { postDog } = usePostDog();
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
     const changeIsSubmitted = () => { setIsSubmitted(!isSubmitted) }

@@ -28,7 +28,7 @@ const  postScheduleWalk = async (request: PostScheduleWalkReq, token: string) =>
            } else {
              console.error('Error posting walk:', response.statusText);
            }
-           return response;
+           return await response;
      }
      catch (error) {
          console.error('Error posting walk:', error);
