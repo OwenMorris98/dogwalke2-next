@@ -13,6 +13,11 @@ export interface FetchCustomersResponse {
     dogs: Dog[]
   }
 
+  export interface CustomerData {
+    first_name : string,
+    last_name : string
+  };
+
  
   export const emptyCustomer: Customer = {
     id: '',
