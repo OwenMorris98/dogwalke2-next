@@ -2,64 +2,60 @@
 import Cookies from "js-cookie"; 
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import { getJwtToken } from "../hooks/auth";
-import useFetchUser from "../hooks/useFetchUser";
+import { getJwtToken, getCustomerId, getEmailFromJwt} from "../hooks/auth";
+import  useCustomer  from "../hooks/useFetchUser";
 import { Customer, CustomerData } from "../lib/definitions";
+import { get } from "http";
+
 
 export default function MyAccount() {
     
 
-    const [token, setToken] = useState<string | null>(null);
+    const [token, setToken] = useState<string>("");
     const [customerId, setCustomerId] = useState<string>("");
     const [customer, setCustomer] = useState<CustomerData>();
-    const { fetchCustomer }  = useFetchUser();
-    const [isMounted, setIsMounted] = useState(false);
+    const [email, setEmail] = useState<string>("");
 
+    const { getCustomerById } = useCustomer();
+    
     function getEmail() {
-        const tokenValues = getJwtToken();
-      console.log(tokenValues);
-  
+        const tokenValues = Cookies.get('jwt');
+      
       if (tokenValues) {
         setToken(tokenValues);
-        console.log('User is already logged in');
+        let custId : string = getCustomerId() || "";
+        let email : string = getEmailFromJwt() || "";
+        setEmail(email);
+        setCustomerId(custId);
+        console.log("Using Let:" + custId);
+        console.log("CustomerId :" + customerId);
       }
     }
 
-    const getCustomer = async () => {
+   
 
-            if(token !== "" || token !== null ) {
-                try {
-                
-                
-                const response = await fetchCustomer(customerId, token || "");
-                console.log(response);
-                if(response) { 
-                    const customerResult = (response : CustomerData) => ({
-                    first_name : response.first_name,
-                    last_name : response.last_name
-                   });
-                    setCustomer(customerResult);
-                }
-            }
-            catch (error) {
-                console.error(error);
-            }
-                
-                console.log(customer);
+    const getCustomer = async () => { 
+        try {
+            const fetchedCustomer : CustomerData = await getCustomerById(customerId, token);
+            console.log(fetchedCustomer);
+            setCustomer(fetchedCustomer);
+        }
+        catch (error) {
+            console.error(error);
 
-            }
-            
+        }
     }
 
     useEffect(() => {
-    
       getEmail();
-      console.log(token);
-      getCustomer();
-      console.log(customer);
-      setIsMounted(true);
-    }, []);
-    if(!isMounted) { return null };
+      if(token) {
+        getCustomer();
+      }
+      
+      console.log("UseEffectCustomer: " + customer);
+      
+     
+    }, [customerId]);
 
    
     
@@ -67,7 +63,7 @@ export default function MyAccount() {
     return (
         <div>
         {token !== "" && 
-        <h1>Welcome {token?.email}</h1>
+        <h1>Welcome {email}</h1>
         }
         
         {customer?.first_name !== null && customer?.last_name !== "" && 

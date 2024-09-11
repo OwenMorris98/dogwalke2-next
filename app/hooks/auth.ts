@@ -69,3 +69,13 @@ export function getCustomerId(): string | null {
             return null;
        }
     }
+
+    export function getEmailFromJwt() : string | null {
+        let cookie = Cookies.get('jwt') || '';
+    if(cookie !== '') {
+        let email : string = jwtDecode(cookie).email as string;
+        return email
+        } else {
+            return null;
+       }
+    }

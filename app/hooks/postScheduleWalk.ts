@@ -34,5 +34,7 @@ const  postScheduleWalk = async (request: PostScheduleWalkReq, token: string) =>
          console.error('Error posting walk:', error);
      };
       
-};return { postScheduleWalk}
-}; export default usePostScheduleWalk;
+};
+return { postScheduleWalk}
+};
+ export default usePostScheduleWalk;
